@@ -1,6 +1,4 @@
-package utils;
-
-import model.Result;
+package util;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;

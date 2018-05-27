@@ -1,6 +1,4 @@
-package utils;
-
-import java.util.regex.Pattern;
+package util;
 
 public class NameUtils {
     public static String toCamelCase(String underScoreStr){

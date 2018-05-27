@@ -1,16 +1,12 @@
 package dao.impl;
 
 import dao.IBaseDao;
-import model.Result;
-import utils.JDBCUtils;
+import util.JDBCUtils;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 @Deprecated
 public class BaseDaoImpl<T> implements IBaseDao<T> {

@@ -1,12 +1,11 @@
 package dao.impl;
 
 import model.AppProject;
-import utils.JDBCUtils;
-import utils.NameUtils;
+import util.JDBCUtils;
+import util.NameUtils;
 
 import java.sql.*;
 import java.util.*;
-import java.util.Date;
 
 public class AppProjectDao {
 

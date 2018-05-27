@@ -1,10 +1,11 @@
 package service;
 
-import com.sun.deploy.ref.AppRef;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import dao.impl.AppProjectDao;
 import model.AppProject;
 import model.Result;
-import utils.ErrorCons;
+import util.ErrorCons;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +47,11 @@ public class ProjectService {
         try {
             List<AppProject> appProjectList = new ArrayList<AppProject>();
             //得到查询结果
-            String[] resultKeyArr = keys.split(";");
+            List<String> resultKeyArr = new ArrayList<String>();
+            JSONArray jsonArray = JSON.parseArray(keys);
+            for (int i = 0; i < jsonArray.size(); i++) {
+                resultKeyArr.add(jsonArray.getString(i));
+            }
             for (String s : resultKeyArr) {
                 AppProject appProject = projectDao.getProjectByKey(s);
                 if(appProject!=null)

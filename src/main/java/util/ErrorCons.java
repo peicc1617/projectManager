@@ -1,4 +1,4 @@
-package utils;
+package util;
 
 public  class ErrorCons {
     public final static String PARAMS_ERROR = "参数错误";

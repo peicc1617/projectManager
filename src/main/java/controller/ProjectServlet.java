@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import model.AppProject;
 import model.Result;
 import service.ProjectService;
-import utils.ErrorCons;
+import util.ErrorCons;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
