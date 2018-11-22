@@ -6,6 +6,7 @@ import util.NameUtils;
 
 import java.sql.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class AppProjectDao {
 
@@ -112,14 +113,17 @@ public class AppProjectDao {
             return null;
         return appProjects.get(0);
     }
-    public AppProject getProjectByKey(String key) {
-        String sql = "select * from " + this.tableName.get() + " where resultKey = ?";
-        List<Object> params = new ArrayList<Object>();
-        params.add(0, key);
-        List<AppProject> appProjects =doQuery(sql,params);
+    public List<AppProject> getProjectByKey(List<Integer> idList) {
+        StringBuilder sb = new StringBuilder("select * from " + this.tableName.get() + " where id in (");
+        for (int i = 1; i < idList.size(); i++) {
+            sb.append('?').append(',');
+        }
+        sb.append('?').append(')');
+        List<Object> params = new ArrayList<Object>(idList);
+        List<AppProject> appProjects =doQuery(sb.toString(),params);
         if(appProjects==null||appProjects.size()<1)
             return null;
-        return appProjects.get(0);
+        return appProjects;
     }
 
     public void update(AppProject appProject, String username) {

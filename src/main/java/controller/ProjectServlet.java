@@ -51,11 +51,6 @@ public class ProjectServlet extends HttpServlet {
                 notEnd = false;
             }
 
-            if(resultKeys!=null&&resultKeys.length()>0){
-                result = projectService.getAppProjectByKey(resultKeys);
-                notEnd = false;
-            }
-
             if (notEnd) {
                 //根据userAll查询
                 result = projectService.getAppProjectList(username);
