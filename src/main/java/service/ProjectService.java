@@ -1,13 +1,10 @@
 package service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import dao.impl.AppProjectDao;
 import model.AppProject;
 import model.Result;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import org.apache.commons.codec.binary.Base64;
 import util.ErrorCons;
 
 import java.io.IOException;
@@ -169,13 +166,7 @@ public class ProjectService {
         for (String key : resultKeys) {
             //解码
             long res = -1;
-            try {
-                res = Long.valueOf(new String((new BASE64Decoder()).decodeBuffer(key)));
-            } catch (IOException e) {
-                e.printStackTrace();
-                result.setError(ErrorCons.SERVER_ERROR);
-                return result;
-            }
+            res = Long.valueOf(new String((Base64.decodeBase64(key))));
             //验证
             int id = -1;
             if(res>=0&&projectID == (int)(res>>>32)){
@@ -218,7 +209,7 @@ public class ProjectService {
      */
     private String encrypt(int projectID,int ID){
         String data = String.valueOf((long)projectID<<32|ID);
-        return (new BASE64Encoder()).encodeBuffer(data.getBytes());
+        return  Base64.encodeBase64String(data.getBytes());
     }
 
 //        /**
