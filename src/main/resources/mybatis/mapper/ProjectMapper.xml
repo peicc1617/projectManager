@@ -12,7 +12,7 @@
 
     <update id="addTable">
           CREATE TABLE `${tableName}` (
-          <foreach collection="list" item="columnString" separator=",">
+          <foreach collection="columnStringList" item="columnString" separator=",">
               columnString
           </foreach>
           ,
@@ -30,39 +30,42 @@
     </update>
 
 
-    <insert id="addProject" useGeneratedKeys="true" keyProperty="id">
+    <insert id="addProject" useGeneratedKeys="true" keyProperty="project.id">
       INSERT INTO `${tableName}`
-      <foreach collection="list" item="item" separator="," open="(" close=")">
+      <foreach collection="columnNames" item="item" separator="," open="(" close=")">
           ${item}
       </foreach>
       VALUES
-      <foreach collection="list" item="item" separator="," open="(" close=")">
+      <foreach collection="columnNames" item="item" separator="," open="(" close=")">
           #{project.${item}}
       </foreach>
     </insert>
 
+    <insert id="addProjectTest" useGeneratedKeys="true" keyProperty="project.id" keyColumn="id">
+      INSERT INTO `${tableName}` (projectName,memo,userID) values (#{project.projectName},#{project.memo},#{project.userID})
+    </insert>
 
     <delete id="deleteProject">
-        DELETE FROM ${tableName} WHERE id = #{id};
+        DELETE FROM `${tableName}` WHERE id = #{id};
     </delete>
 
     <select id="getProjectByID" resultType="map">
-        SELECT * FROM ${tableName} WHERE id=#{id};
+        SELECT * FROM `${tableName}` WHERE id=#{id};
     </select>
 
     <select id="getProjectListByUserID" resultType="map">
-        SELECT * FROM ${tableName} WHERE userID = #{userID};
+        SELECT * FROM `${tableName}` WHERE userID = #{userID};
     </select>
 
     <update id="updateProject">
         UPDATE `${tableName}` SET
-        <foreach collection="list" item="item" separator=",">
-            ${item} = #{project.${item}}
+        <foreach collection="columnNames" item="item" separator=",">
+          ${item} = #{project.${item}}
         </foreach>
         WHERE id = #{project.id}
     </update>
 
     <select id="auth" resultType="java.lang.Long">
-          SELECT count(1) FROM ${tableName} WHERE userID = #{userID} AND id = ${id}
+          SELECT count(1) FROM `${tableName}` WHERE userID = #{userID} AND id = ${id}
     </select>
 </mapper>

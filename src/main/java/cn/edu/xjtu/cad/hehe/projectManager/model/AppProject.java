@@ -6,7 +6,7 @@ public class AppProject {
     /**
      * 项目id
      */
-    private int id;
+    private Long id;
     /**
      * 项目名
      */
@@ -18,7 +18,7 @@ public class AppProject {
     /**
      * 用户名
      */
-    private long userID;
+    private Long userID;
     /**
      * 备注
      */
@@ -44,12 +44,16 @@ public class AppProject {
     public AppProject() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
 
     public String getProjectName() {
@@ -68,12 +72,8 @@ public class AppProject {
         this.createTime = createTime;
     }
 
-    public long getUserID() {
+    public Long getUserID() {
         return userID;
-    }
-
-    public void setUserID(long userID) {
-        this.userID = userID;
     }
 
     public String getMemo() {

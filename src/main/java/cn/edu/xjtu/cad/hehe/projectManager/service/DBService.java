@@ -47,7 +47,7 @@ public class DBService {
         put("projectName", new Column("projectName", "varchar(255)", "YES", "", null, "", "项目名"));
         put("createTime", new Column("createTime", "datetime", "YES", "", "CURRENT_TIMESTAMP", "", "项目创建时间-NO_UPDATE-"));
         put("editTime", new Column("editTime", "datetime", "YES", "", "CURRENT_TIMESTAMP", "on update CURRENT_TIMESTAMP", "项目更新时间-NO_UPDATE-"));
-        put("userID", new Column("userID", "int(11)", "NO", "", null, "", "用户ID-NO_UPDATE-"));
+        put("userID", new Column("userID", "int(11)", "NO", "", null, "", "用户ID"));
         put("memo", new Column("memo", "varchar(255)", "YES", "", null, "", "项目备注"));
         put("appResult", new Column("appResult", "text", "YES", "", null, "", "项目报告结果"));
         put("appContent", new Column("appContent", "text", "YES", "", null, "", "项目数据"));
@@ -214,7 +214,7 @@ public class DBService {
         return toolDBMap.get(tableName)
                 .entrySet()
                 .stream()
-                .filter(e->e.getValue().getComment().contains(NO_UPDATE))
+                .filter(e->!e.getValue().getComment().contains(NO_UPDATE))
                 .map(e->e.getKey())
                 .collect(Collectors.toList());
     }

@@ -7,6 +7,7 @@ import cn.edu.xjtu.cad.hehe.projectManager.model.AppProject;
 import cn.edu.xjtu.cad.hehe.projectManager.model.Result;
 import cn.edu.xjtu.cad.hehe.projectManager.service.ProjectService;
 import cn.edu.xjtu.cad.hehe.projectManager.util.ErrorCons;
+import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;

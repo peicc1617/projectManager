@@ -9,12 +9,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.beans.BeanMap;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -63,11 +61,14 @@ public class ProjectService {
         project.setUserID(userID);
         AppProject appProject = this.getAppProjectByID(project.getId(),tableName);
         Result result = this.auth(appProject,userID,tableName);
+
         if(result!=null)
             return result;
-        projectDao.updateProject(tableName,project,dbService.getUpdateColumnNameList(tableName));
+        projectDao.updateProject(tableName,project,getToUpdateColumnNameList(project,tableName));
         return Result.success(projectDao.getProjectByID(tableName,project.getId()));
     }
+
+
 
     /**
      * @param userID
@@ -77,7 +78,7 @@ public class ProjectService {
      */
     public Result addAppProject(long userID, AppProject project, String tableName) {
         project.setUserID(userID);
-        projectDao.addProject(tableName,project,dbService.getUpdateColumnNameList(tableName));
+        projectDao.addProjectTest(tableName,project,getToUpdateColumnNameList(project,tableName));
         return Result.success(project);
 
     }
@@ -95,32 +96,6 @@ public class ProjectService {
             return result;
         projectDao.deleteProject(tableName,id);
         return Result.success("删除成功");
-    }
-
-    private AppProject getAppProjectByID(long projectID,String tableName){
-        Map<String,Object> map = projectDao.getProjectByID(tableName,projectID);
-        return map2Project(map,tableName);
-    }
-
-
-    private AppProject map2Project(Map<String,Object> map,String tableName){
-        if(map==null||map.size()==0) return null;
-        AppProject appProject = dbService.generateAppProjectBeanObject(tableName);
-        BeanWrapper beanWrapper = new BeanWrapperImpl(appProject);
-        beanWrapper.setPropertyValues(map);
-        return appProject;
-
-    }
-
-
-    public Result auth(AppProject appProject,long userID,String tableName){
-        if(appProject==null){
-            return Result.failure(ErrorCons.NORESULT_ERROR);
-        }
-        if(appProject.getUserID()!=userID){
-            return Result.failure(ErrorCons.PERMISSION_ERROR);
-        }
-        return null;
     }
 
     public Result getProjectRecordWithBinding(String tableName,long projectID, String[] resultKeys) {
@@ -160,8 +135,59 @@ public class ProjectService {
         }
         return result;
     }
+
+
+    private AppProject getAppProjectByID(long projectID,String tableName){
+        Map<String,Object> map = projectDao.getProjectByID(tableName,projectID);
+        return map2Project(map,tableName);
+    }
+
+
+    /**
+     * 验证用户的权限
+     * @param appProject
+     * @param userID
+     * @param tableName
+     * @return
+     * ErrorCons.NORESULT_ERROR 结果不存在
+     * ErrorCons.PERMISSION_ERROR 用户权限错误
+     */
+    private Result auth(AppProject appProject,long userID,String tableName){
+        if(appProject==null){
+            return Result.failure(ErrorCons.NORESULT_ERROR);
+        }
+        if(appProject.getUserID()!=userID){
+            return Result.failure(ErrorCons.PERMISSION_ERROR);
+        }
+        return null;
+    }
+
     private String encrypt(long projectID,long ID){
         String data = projectID+""+ID;
         return  Base64.encodeBase64String(data.getBytes());
+    }
+
+    /**
+     * map转化为AppProject
+     * @param map
+     * @param tableName
+     * @return
+     */
+    private AppProject map2Project(Map<String,Object> map,String tableName){
+        if(map==null||map.size()==0) return null;
+        AppProject appProject = dbService.generateAppProjectBeanObject(tableName);
+        BeanWrapper beanWrapper = new BeanWrapperImpl(appProject);
+        beanWrapper.setPropertyValues(map);
+        return appProject;
+    }
+    private List<String> getToUpdateColumnNameList(AppProject appProject,String tableName){
+        Set<String> columnNameSet = new HashSet<>(dbService.getUpdateColumnNameList(tableName));
+        List<String> toUpdateNameList  = new ArrayList<>();
+        BeanMap.create(appProject).forEach((k,v)->{
+            if(columnNameSet.contains(k.toString())&&v!=null){
+                toUpdateNameList.add(k.toString());
+            }
+        });
+        return toUpdateNameList;
     }
 }
