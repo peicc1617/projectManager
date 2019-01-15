@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.xjtu.cad.hehe.projectManager.dao.ProjectDao">
+
+    <select id="getColumnListFromTable" resultType="cn.edu.xjtu.cad.hehe.projectManager.model.Column">
+        SHOW FULL COLUMNS FROM `${tableName}`
+    </select>
+
+    <delete id="deleteTable">
+        DROP TABLE `${tableName}`
+    </delete>
+
+    <update id="addTable">
+          CREATE TABLE `${tableName}` (
+          <foreach collection="list" item="columnString" separator=",">
+              columnString
+          </foreach>
+          ,
+          PRIMARY KEY (`${pk}`)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    </update>
+
+    <update id="addColumnsToTable">
+        ALTER TABLE `${tableName}` ADD ${columnString}
+
+    </update>
+
+    <update id="editTableColumns">
+      ALTER TABLE `${tableName}` MODIFY COLUMN ${columnString}
+    </update>
+
+
+    <insert id="addProject" useGeneratedKeys="true" keyProperty="id">
+      INSERT INTO `${tableName}`
+      <foreach collection="list" item="item" separator="," open="(" close=")">
+          ${item}
+      </foreach>
+      VALUES
+      <foreach collection="list" item="item" separator="," open="(" close=")">
+          #{project.${item}}
+      </foreach>
+    </insert>
+
+
+    <delete id="deleteProject">
+        DELETE FROM ${tableName} WHERE id = #{id};
+    </delete>
+
+    <select id="getProjectByID" resultType="map">
+        SELECT * FROM ${tableName} WHERE id=#{id};
+    </select>
+
+    <select id="getProjectListByUserID" resultType="map">
+        SELECT * FROM ${tableName} WHERE userID = #{userID};
+    </select>
+
+    <update id="updateProject">
+        UPDATE `${tableName}` SET
+        <foreach collection="list" item="item" separator=",">
+            ${item} = #{project.${item}}
+        </foreach>
+        WHERE id = #{project.id}
+    </update>
+
+    <select id="auth" resultType="java.lang.Long">
+          SELECT count(1) FROM ${tableName} WHERE userID = #{userID} AND id = ${id}
+    </select>
+</mapper>
