@@ -28,7 +28,7 @@
 示例
 > 1. 首先进入数据库修改表结构，添加字段`fishBoneExtra varchar(255)  DEFAULT NULL COMMENT '鱼骨图额外字段'`,
 > 2. 使用GET方法获取数据即可看到效果
-```
+``` json
 {
     "id":418,
     "projectName":"123",

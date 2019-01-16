@@ -10,10 +10,12 @@ import cn.edu.xjtu.cad.hehe.projectManager.util.ErrorCons;
 import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+@CrossOrigin // 注解方式
 @RestController
 @RequestMapping("/api/v1/project")
 public class ProjectController {
@@ -27,6 +29,7 @@ public class ProjectController {
      * @param id
      * @return
      */
+    @CrossOrigin
     @RequestMapping(value = "",method = RequestMethod.GET,params = "id")
     public Result getProjectByID(@CurUserID long userID, @TableName String tableName, long id){
         if(StringUtils.isEmpty(tableName)){
@@ -44,6 +47,7 @@ public class ProjectController {
      * @param tableName
      * @return
      */
+    @CrossOrigin
     @RequestMapping(value = "",method = RequestMethod.GET)
     public Result getProjectListByUser(@CurUserID long userID,@TableName String tableName){
         if(tableName==null)
@@ -58,6 +62,7 @@ public class ProjectController {
      * @param project
      * @return
      */
+    @CrossOrigin
     @RequestMapping(value = "",method = RequestMethod.PUT)
     public Result updateProject(@CurUserID long userID,@TableName String tableName,@ProjectObject AppProject project){
         if(StringUtils.isEmpty(tableName)){
@@ -73,6 +78,7 @@ public class ProjectController {
      * @param project
      * @return
      */
+    @CrossOrigin
     @RequestMapping(value = "",method = RequestMethod.POST)
     public Result addProject(@CurUserID long userID,@TableName String tableName,@ProjectObject AppProject project){
         if(StringUtils.isEmpty(tableName)){
@@ -88,6 +94,8 @@ public class ProjectController {
      * @param id
      * @return
      */
+
+    @CrossOrigin
     @RequestMapping(value = "",method = RequestMethod.DELETE)
     public Result deleteProject(@CurUserID long userID,@TableName String tableName,long id){
         if(StringUtils.isEmpty(tableName)){
@@ -98,6 +106,8 @@ public class ProjectController {
         return projectService.deleteAppProject(userID,tableName,id);
     }
 
+
+    @CrossOrigin
     @RequestMapping(value = "/binding",method = RequestMethod.GET)
     public Result getBindingProject(@TableName String tableName,long id,String[] resultKeys){
         if(StringUtils.isEmpty(tableName)){
@@ -108,6 +118,7 @@ public class ProjectController {
         return projectService.getProjectRecordWithBinding(tableName,id,resultKeys);
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/binding",method = RequestMethod.POST)
     public Result getBindingProject(@CurUserID long userID,@TableName String tableName,long id,long projectID){
         if(StringUtils.isEmpty(tableName)){
