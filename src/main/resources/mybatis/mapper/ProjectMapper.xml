@@ -13,7 +13,7 @@
     <update id="addTable">
           CREATE TABLE `${tableName}` (
           <foreach collection="columnStringList" item="columnString" separator=",">
-              columnString
+              ${columnString}
           </foreach>
           ,
           PRIMARY KEY (`${pk}`)
