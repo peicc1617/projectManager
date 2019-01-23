@@ -47,6 +47,7 @@ public class ProjectService {
         List<AppProject> appProjectList = projectDao.getProjectListByUserID(tableName,userID).stream()
                 .map(map -> this.map2Project(map,tableName))
                 .collect(Collectors.toList());
+        System.out.println(appProjectList);
         return Result.success(appProjectList);
     }
 
@@ -128,10 +129,10 @@ public class ProjectService {
         }
     }
 
-    public Result validateProjectRecord4User(String tableName,long projectID, long id, long userID) {
-        Result result = auth(getAppProjectByID(id,tableName),userID,tableName);
+    public Result validateProjectRecord4User(String tableName,long tProjectID, long projectID, long userID) {
+        Result result = auth(getAppProjectByID(projectID,tableName),userID,tableName);
         if(result==null){
-            return Result.success(encrypt(projectID,id));
+            return Result.success(encrypt(tProjectID,projectID));
         }
         return result;
     }

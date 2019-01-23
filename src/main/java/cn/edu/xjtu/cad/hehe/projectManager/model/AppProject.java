@@ -123,4 +123,20 @@ public class AppProject {
     public void setEditTime(Date editTime) {
         this.editTime = editTime;
     }
+
+    @Override
+    public String toString() {
+        return "AppProject{" +
+                "id=" + id +
+                ", projectName='" + projectName + '\'' +
+                ", createTime=" + createTime +
+                ", userID=" + userID +
+                ", memo='" + memo + '\'' +
+                ", appResult='" + appResult + '\'' +
+                ", appContent='" + appContent + '\'' +
+                ", reservation='" + reservation + '\'' +
+                ", resultKey='" + resultKey + '\'' +
+                ", editTime=" + editTime +
+                '}';
+    }
 }

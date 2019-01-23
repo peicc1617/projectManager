@@ -1,6 +1,5 @@
 package cn.edu.xjtu.cad.hehe.projectManager.config;
 
-import cn.edu.xjtu.cad.hehe.projectManager.annotation.ProjectObject;
 import cn.edu.xjtu.cad.hehe.projectManager.resolver.CurUserIDResolver;
 import cn.edu.xjtu.cad.hehe.projectManager.resolver.ProjectResolver;
 import cn.edu.xjtu.cad.hehe.projectManager.resolver.TableNameResolver;
@@ -18,12 +17,12 @@ public class ResolverConfig implements WebMvcConfigurer {
     @Autowired
     CurUserIDResolver curUserIDResolver;
 
-    @Autowired
-    TableNameResolver tableNameResolver;
 
     @Autowired
     ProjectResolver projectResolver;
 
+    @Autowired
+    TableNameResolver tableNameResolver;
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(curUserIDResolver);
