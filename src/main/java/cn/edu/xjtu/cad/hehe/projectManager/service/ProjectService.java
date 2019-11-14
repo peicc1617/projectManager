@@ -79,7 +79,8 @@ public class ProjectService {
      */
     public Result addAppProject(long userID, AppProject project, String tableName) {
         project.setUserID(userID);
-        projectDao.addProjectTest(tableName,project,getToUpdateColumnNameList(project,tableName));
+//        projectDao.addProjectTest(tableName,project,getToUpdateColumnNameList(project,tableName));
+        projectDao.addProject(tableName,project,getToUpdateColumnNameList(project,tableName));
         return Result.success(project);
 
     }
